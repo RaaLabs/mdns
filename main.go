@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"log"
 	"os"
 	"strings"
@@ -57,7 +58,10 @@ func publishRecordA(r ARecord) {
 	mustPublish(r.printReverseIP() + ".in-addr.arpa. " + r.TTL + " IN PTR " + r.Name + ".")
 }
 func main() {
-	fh, err := os.Open("./recordsA.json")
+	fileName := flag.String("fileName", "./recordsA.json", "specify the json filename from where to read the config")
+	flag.Parse()
+
+	fh, err := os.Open(*fileName)
 	if err != nil {
 		log.Printf("error: os.Open failed: %v\n", err)
 		return
